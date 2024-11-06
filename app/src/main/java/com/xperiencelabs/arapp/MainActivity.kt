@@ -2,6 +2,8 @@ package com.xperiencelabs.arapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.TextView
 import androidx.core.view.isGone
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.ar.core.Config
@@ -15,6 +17,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sceneView: ArSceneView
     lateinit var placeButton: ExtendedFloatingActionButton
     private lateinit var modelNode: ArModelNode
+    private lateinit var movePlanets: TextView
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +28,9 @@ class MainActivity : AppCompatActivity() {
             this.lightEstimationMode = Config.LightEstimationMode.DISABLED
         }
 
-        placeButton = findViewById(R.id.place)
+        placeButton = findViewById(R.id.lockPlanets)
+        movePlanets = findViewById(R.id.movePlanets)
+
 
         placeButton.setOnClickListener {
             placeModel()
@@ -37,6 +43,7 @@ class MainActivity : AppCompatActivity() {
                 centerOrigin = Position(-0.5f)
             ) {
                 sceneView.planeRenderer.isVisible = true
+                movePlanets.visibility = View.GONE
                 val materialInstance = it.materialInstances[0]
             }
             onAnchorChanged = {
@@ -50,5 +57,6 @@ class MainActivity : AppCompatActivity() {
     private fun placeModel() {
         modelNode.anchor()
         sceneView.planeRenderer.isVisible = false
+        movePlanets.visibility = View.VISIBLE
     }
 }
