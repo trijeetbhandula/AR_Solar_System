@@ -15,10 +15,15 @@ import io.github.sceneview.math.Position
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sceneView: ArSceneView
-    lateinit var placeButton: ExtendedFloatingActionButton
     private lateinit var modelNode: ArModelNode
     private lateinit var movePlanets: TextView
+    private lateinit var placeButton: ExtendedFloatingActionButton
+    private lateinit var plusButton: ExtendedFloatingActionButton
+    private lateinit var minusButton: ExtendedFloatingActionButton
 
+    // Initial scale factor for the model
+    private var scaleFactor = 1f
+    private val scaleStep = 0.1f // Change in scale on each button press
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,21 +35,29 @@ class MainActivity : AppCompatActivity() {
 
         placeButton = findViewById(R.id.lockPlanets)
         movePlanets = findViewById(R.id.movePlanets)
-
+        plusButton = findViewById(R.id.plusbutton)
+        minusButton = findViewById(R.id.minusbutton)
 
         placeButton.setOnClickListener {
             placeModel()
         }
 
+        plusButton.setOnClickListener {
+            zoomIn()
+        }
+
+        minusButton.setOnClickListener {
+            zoomOut()
+        }
+
         modelNode = ArModelNode(sceneView.engine, PlacementMode.INSTANT).apply {
             loadModelGlbAsync(
                 glbFileLocation = "models/solar_system.glb",
-                scaleToUnits = 1f,
+                scaleToUnits = scaleFactor,
                 centerOrigin = Position(-0.5f)
             ) {
                 sceneView.planeRenderer.isVisible = true
                 movePlanets.visibility = View.GONE
-                val materialInstance = it.materialInstances[0]
             }
             onAnchorChanged = {
                 placeButton.isGone = it != null
@@ -58,5 +71,17 @@ class MainActivity : AppCompatActivity() {
         modelNode.anchor()
         sceneView.planeRenderer.isVisible = false
         movePlanets.visibility = View.VISIBLE
+    }
+
+    private fun zoomIn() {
+        scaleFactor += scaleStep
+        modelNode.scale = Position(scaleFactor, scaleFactor, scaleFactor)
+    }
+
+    private fun zoomOut() {
+        if (scaleFactor > scaleStep) {  // Prevents the scale from becoming too small or zero
+            scaleFactor -= scaleStep
+            modelNode.scale = Position(scaleFactor, scaleFactor, scaleFactor)
+        }
     }
 }
