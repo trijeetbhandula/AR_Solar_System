@@ -16,14 +16,14 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var sceneView: ArSceneView
     private lateinit var modelNode: ArModelNode
-    private lateinit var movePlanets: TextView
     private lateinit var placeButton: ExtendedFloatingActionButton
     private lateinit var plusButton: ExtendedFloatingActionButton
     private lateinit var minusButton: ExtendedFloatingActionButton
+    private lateinit var unlockButton: ExtendedFloatingActionButton
+    private var isLocked = false // Track lock state
 
-    // Initial scale factor for the model
     private var scaleFactor = 1f
-    private val scaleStep = 0.1f // Change in scale on each button press
+    private val scaleStep = 0.4f
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,12 +34,16 @@ class MainActivity : AppCompatActivity() {
         }
 
         placeButton = findViewById(R.id.lockPlanets)
-        movePlanets = findViewById(R.id.movePlanets)
+        unlockButton = findViewById(R.id.unlockPlanets)
         plusButton = findViewById(R.id.plusbutton)
         minusButton = findViewById(R.id.minusbutton)
 
         placeButton.setOnClickListener {
-            placeModel()
+            lockPlanets()
+        }
+
+        unlockButton.setOnClickListener {
+            unlockPlanets()
         }
 
         plusButton.setOnClickListener {
@@ -54,10 +58,9 @@ class MainActivity : AppCompatActivity() {
             loadModelGlbAsync(
                 glbFileLocation = "models/solar_system.glb",
                 scaleToUnits = scaleFactor,
-                centerOrigin = Position(-0.5f)
+                centerOrigin = Position(0f)
             ) {
                 sceneView.planeRenderer.isVisible = true
-                movePlanets.visibility = View.GONE
             }
             onAnchorChanged = {
                 placeButton.isGone = it != null
@@ -67,10 +70,14 @@ class MainActivity : AppCompatActivity() {
         sceneView.addChild(modelNode)
     }
 
-    private fun placeModel() {
-        modelNode.anchor()
-        sceneView.planeRenderer.isVisible = false
-        movePlanets.visibility = View.VISIBLE
+    private fun lockPlanets() {
+        isLocked = true
+        modelNode.placementMode = PlacementMode.DISABLED
+    }
+
+    private fun unlockPlanets() {
+        isLocked = false
+        modelNode.placementMode = PlacementMode.INSTANT
     }
 
     private fun zoomIn() {
@@ -79,7 +86,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun zoomOut() {
-        if (scaleFactor > scaleStep) {  // Prevents the scale from becoming too small or zero
+        if (scaleFactor > scaleStep) {
             scaleFactor -= scaleStep
             modelNode.scale = Position(scaleFactor, scaleFactor, scaleFactor)
         }
