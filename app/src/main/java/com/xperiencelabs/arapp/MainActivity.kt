@@ -2,9 +2,6 @@ package com.xperiencelabs.arapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
-import androidx.core.view.isGone
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 import com.google.ar.core.Config
 import io.github.sceneview.ar.ArSceneView
@@ -35,8 +32,8 @@ class MainActivity : AppCompatActivity() {
 
         placeButton = findViewById(R.id.lockPlanets)
         unlockButton = findViewById(R.id.unlockPlanets)
-        plusButton = findViewById(R.id.plusbutton)
-        minusButton = findViewById(R.id.minusbutton)
+        plusButton = findViewById(R.id.plus_button)
+        minusButton = findViewById(R.id.minus_button)
 
         placeButton.setOnClickListener {
             lockPlanets()

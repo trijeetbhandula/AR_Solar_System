@@ -17,7 +17,7 @@
         android:id="@+id/unlockPlanets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Unlock Planets"
+        android:text="@string/unlock_planets"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,10 +27,10 @@
         app:layout_constraintVertical_bias="0.954" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/plusbutton"
+        android:id="@+id/plus_button"
         android:layout_width="62dp"
         android:layout_height="58dp"
-        android:text=" +"
+        android:text="@string/plus_button"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -42,10 +42,10 @@
         app:layout_constraintVertical_bias="0.75" />
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/minusbutton"
+        android:id="@+id/minus_button"
         android:layout_width="62dp"
         android:layout_height="58dp"
-        android:text=" -"
+        android:text="@string/minus_button"
         android:textAlignment="center"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -60,7 +60,7 @@
         android:id="@+id/lockPlanets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lock Planets"
+        android:text="@string/lock_planets"
         android:textAlignment="center"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"

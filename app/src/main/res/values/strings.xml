@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ARApp</string>
+    <string name="unlock_planets">Unlock Planets</string>
+    <string name="plus_button">+</string>
+    <string name="minus_button">-</string>
+    <string name="lock_planets">Lock Planets</string>
 </resources>
